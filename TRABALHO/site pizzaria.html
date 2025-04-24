@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Autoatendimento - Pizzaria</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      display: flex;
+      height: 100vh;
+    }
+
+    .coluna-esquerda {
+      width: 250px;
+      background-color: #f8f1e4;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 20px;
+      box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .botao {
+      padding: 15px;
+      margin-bottom: 10px;
+      background-color: #d35400;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      text-align: center;
+      cursor: pointer;
+      text-decoration: none;
+      font-size: 16px;
+    }
+
+    .botao:hover {
+      background-color: #e67e22;
+    }
+
+    .rodape {
+      font-size: 14px;
+      color: #555;
+      text-align: center;
+      padding-top: 10px;
+      border-top: 1px solid #ccc;
+    }
+
+    .coluna-direita {
+      flex: 1;
+      padding: 20px;
+      background-color: #fff8f0;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="coluna-esquerda">
+    <div>
+      <a href="index.html" class="botao">Página Inicial</a>
+      <a href="cardapio.html" class="botao">Cardápio</a>
+    </div>
+
+    <div class="rodape">
+      © 2025 Pizzaria Delícia<br>
+      Todos os direitos reservados.
+    </div>
+  </div>
+
+  <div class="coluna-direita">
+    <!-- Conteúdo principal aqui -->
+    <h1>Bem-vindo ao Autoatendimento da Pizzaria!</h1>
+    <p>Escolha uma opção no menu à esquerda para começar.</p>
+  </div>
+
+</body>
+</html>

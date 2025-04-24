@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Resumo do Pedido</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; background-color: #fff8f0; }
+    .item { background: white; padding: 15px; border-radius: 8px; margin-bottom: 15px; box-shadow: 0 0 5px rgba(0,0,0,0.1); }
+    .item h3 { margin: 0 0 5px; }
+    .botao { padding: 10px 15px; background: #d35400; color: #fff; border: none; border-radius: 5px; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <h1>Resumo do Pedido</h1>
+  <div id="resumo"></div>
+  <button onclick="window.location.href='cardapio.html'" class="botao">Voltar</button>
+
+  <script>
+    const pedido = JSON.parse(localStorage.getItem('pedidoPizzaria')) || [];
+    const resumo = document.getElementById('resumo');
+
+    if (pedido.length > 0) {
+      pedido.forEach(p => {
+        resumo.innerHTML += `
+          <div class="item">
+            <h3>${p.nome}</h3>
+            <p><strong>Tamanho:</strong> ${p.tamanho}</p>
+            <p><strong>Quantidade:</strong> ${p.quantidade}</p>
+          </div>
+        `;
+      });
+    } else {
+      resumo.innerHTML = '<p>Nenhum pedido encontrado.</p>';
+    }
+  </script>
+</body>
+</html>
+
+
+
