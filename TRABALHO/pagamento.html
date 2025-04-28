@@ -4,12 +4,13 @@
   <meta charset="UTF-8">
   <title>Pagamento</title>
   <style>
-    body { font-family: Arial, sans-serif; padding: 20px; background-color: #fff8f0; text-align: center; }
-    .container { background: white; padding: 30px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); display: inline-block; margin-top: 50px; }
+    body { font-family: Arial, sans-serif; padding: 20px; background-color: #1a1919; text-align: center; }
+    h1 {color: white}
+    .container { background: rgba(122, 122, 121, 0.274); padding: 30px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); display: inline-block; margin-top: 50px; }
     .chave-pix { font-size: 20px; color: #27ae60; margin: 15px 0; word-break: break-word; }
     .botao { margin-top: 20px; background: #27ae60; color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer; font-size: 16px; margin-right: 10px; }
     .qr-code { margin-top: 20px; }
-    .mensagem { margin-top: 20px; font-size: 18px; color: #e67e22; display: none; }
+    .mensagem { margin-top: 20px; font-size: 18px; color: black; display: none; }
   </style>
 </head>
 <body>
@@ -78,7 +79,7 @@
         localStorage.removeItem('pedidoPizzaria'); // limpa pedido
         localStorage.removeItem('valorTotalPedido'); // limpa valor
 
-        alert(`Pagamento de R$ ${valorTotal.toFixed(2)} confirmado! Obrigado pela sua compra. 🍕`);
+        alert(`Pagamento de R$ ${valorTotal.toFixed(2)} confirmado! Obrigado pela sua compra:)`);
         window.location.href = 'index.html'; // volta para inicio
       }, 3000); // espera 3 segundos
     }
