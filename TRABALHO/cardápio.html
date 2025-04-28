@@ -4,8 +4,9 @@
   <meta charset="UTF-8">
   <title>Cardápio - Pizzaria</title>
   <style>
-    body { font-family: Arial, sans-serif; padding: 20px; background-color: #fff8f0; }
-    .pizza { background: white; padding: 20px; margin-bottom: 20px; border-radius: 8px; box-shadow: 0 0 5px rgba(0,0,0,0.1); }
+    body { font-family: Arial, sans-serif; padding: 20px; background-color: #1a1919; }
+    h1 {color: white;}
+    .pizza { background: rgba(122, 122, 121, 0.274); padding: 20px; margin-bottom: 20px; border-radius: 8px; box-shadow: 0 0 5px rgba(0,0,0,0.1); }
     .pizza img { width: 200px; border-radius: 8px; }
     select, input[type="number"] { margin: 10px 5px 10px 0; padding: 5px; }
     .botao { background: #27ae60; color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer; }
@@ -14,17 +15,17 @@
 </head>
 <body>
   <h1>Escolha suas Pizzas</h1>
+  
 
   <div class="pizza">
     <h2>Calabresa</h2>
-    <img src="https://source.unsplash.com/200x120/?pepperoni-pizza" alt="Pizza Calabresa">
     <label>Tamanho:</label>
     <select id="tam_calabresa">
       <option value="Pequena">Pequena</option>
       <option value="Média">Média</option>
       <option value="Grande">Grande</option>
     </select>
-    <label>Qtd:</label>
+    <label>Quantidade:</label>
     <input type="number" id="qtd_calabresa" min="1" value="1">
     <button class="botao" onclick="adicionarPizza('Calabresa')">Adicionar</button>
     <div class="adicionados" id="lista_calabresa"></div>
@@ -32,14 +33,13 @@
 
   <div class="pizza">
     <h2>Marguerita</h2>
-    <img src="https://source.unsplash.com/200x120/?margherita-pizza" alt="Pizza Marguerita">
     <label>Tamanho:</label>
     <select id="tam_marguerita">
       <option value="Pequena">Pequena</option>
       <option value="Média">Média</option>
       <option value="Grande">Grande</option>
     </select>
-    <label>Qtd:</label>
+    <label>Quantidade:</label>
     <input type="number" id="qtd_marguerita" min="1" value="1">
     <button class="botao" onclick="adicionarPizza('Marguerita')">Adicionar</button>
     <div class="adicionados" id="lista_marguerita"></div>
@@ -47,14 +47,13 @@
 
   <div class="pizza">
     <h2>Quatro Queijos</h2>
-    <img src="https://source.unsplash.com/200x120/?cheese-pizza" alt="Pizza Quatro Queijos">
     <label>Tamanho:</label>
     <select id="tam_quatro">
       <option value="Pequena">Pequena</option>
       <option value="Média">Média</option>
       <option value="Grande">Grande</option>
     </select>
-    <label>Qtd:</label>
+    <label>Quantidade:</label>
     <input type="number" id="qtd_quatro" min="1" value="1">
     <button class="botao" onclick="adicionarPizza('Quatro Queijos')">Adicionar</button>
     <div class="adicionados" id="lista_quatro"></div>
@@ -106,4 +105,3 @@
   </script>
 </body>
 </html>
-
