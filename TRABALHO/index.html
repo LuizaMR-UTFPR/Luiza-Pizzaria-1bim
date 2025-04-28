@@ -9,11 +9,16 @@
       font-family: Arial, sans-serif;
       display: flex;
       height: 100vh;
+      /* Alterado aqui para permitir imagem de fundo */
+      background-image: url(paredepizzaria.jpg); /* <-- Link do papel de parede */
+      background-size: cover; /* Faz a imagem cobrir toda a tela */
+      background-position: center; /* Centraliza a imagem */
+      background-repeat: no-repeat; /* Não repete a imagem */
     }
 
     .coluna-esquerda {
       width: 250px;
-      background-color: #f8f1e4;
+      background-color: rgba(46, 46, 46, 0.95); /* Transparente para ver o fundo */
       display: flex;
       flex-direction: column;
       justify-content: space-between;
@@ -29,8 +34,8 @@
 
     .botao {
       padding: 15px;
-      background-color: #d35400;
-      color: white;
+      background-color: #a01616;
+      color: rgb(255, 255, 255);
       border: none;
       border-radius: 5px;
       text-align: center;
@@ -40,7 +45,7 @@
     }
 
     .botao:hover {
-      background-color: #e67e22;
+      background-color: #38b419;
     }
 
     .rodape {
@@ -48,13 +53,15 @@
       color: #555;
       text-align: center;
       padding-top: 10px;
-      border-top: 1px solid #ccc;
+      border-top: 1px solid #000000;
     }
 
     .coluna-direita {
       flex: 1;
       padding: 20px;
-      background-color: #fff8f0;
+      background-color: rgba(255, 248, 240, 0.178); /* Também levemente transparente */
+      border-radius: 10px;
+      margin: 20px;
     }
   </style>
 </head>
@@ -67,13 +74,13 @@
     </div>
 
     <div class="rodape">
-      © 2025 Pizzaria Delícia<br>
-      Todos os direitos reservados.
+      © 1985 Freddy Fazbear Pizzaria<br>
+      Onde a fantasia e a diversão ganham vida.
     </div>
   </div>
 
   <div class="coluna-direita">
-    <h1>Bem-vindo ao Autoatendimento da Pizzaria!</h1>
+    <h1>Bem-vindo ao Autoatendimento da Freddy Fazbear Pizzaria! :D</h1>
     <p>Escolha uma opção no menu à esquerda para começar.</p>
   </div>
 
