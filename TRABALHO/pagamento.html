@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Pagamento</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; background-color: #fff8f0; text-align: center; }
+    .container { background: white; padding: 30px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); display: inline-block; margin-top: 50px; }
+    .chave-pix { font-size: 20px; color: #27ae60; margin: 15px 0; word-break: break-word; }
+    .botao { margin-top: 20px; background: #27ae60; color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer; font-size: 16px; margin-right: 10px; }
+    .qr-code { margin-top: 20px; }
+    .mensagem { margin-top: 20px; font-size: 18px; color: #e67e22; display: none; }
+  </style>
+</head>
+<body>
+  <h1>Pagamento via Pix</h1>
+
+  <div class="container">
+    <p>Use a chave Pix abaixo para realizar o pagamento:</p>
+    <p class="chave-pix" id="chavePix">44999074747</p>
+
+    <button class="botao" onclick="copiarChave()">Copiar Chave Pix</button>
+
+    <div class="qr-code">
+      <p>Ou escaneie o QR Code:</p>
+      <img id="qrCodeImagem" src="" alt="QR Code Pix" />
+    </div>
+
+    <button class="botao" onclick="concluir()">Concluir Pedido</button>
+
+    <p class="mensagem" id="mensagemAguardando">Aguardando pagamento... 🔄</p>
+  </div>
+
+  <script>
+    let valorTotal = 0;
+
+    function gerarPixCopiaCola(valor) {
+      const chave = '44999074747';
+      const nomeRecebedor = 'Freddy Fazbear PIzzaria';
+      const cidade = 'EUA';
+      const mensagem = 'Pagamento Pizzaria';
+
+      const payload = `00020126360014BR.GOV.BCB.PIX0114${chave}520400005303986540${valor.toFixed(2)}5802BR5914${nomeRecebedor}6007${cidade}62070503***6304`;
+      return payload;
+    }
+
+    function gerarQRCode() {
+      valorTotal = parseFloat(localStorage.getItem('valorTotalPedido') || 0);
+      if (valorTotal <= 0) {
+        alert('Nenhum pedido encontrado.');
+        window.location.href = 'cardápio.html';
+        return;
+      }
+
+      const payload = gerarPixCopiaCola(valorTotal);
+      const urlQRCode = `https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(payload)}&size=200x200`;
+
+      document.getElementById('qrCodeImagem').src = urlQRCode;
+    }
+
+    function copiarChave() {
+      const chavePix = document.getElementById('chavePix').innerText;
+      navigator.clipboard.writeText(chavePix)
+        .then(() => {
+          alert('Chave Pix copiada para a área de transferência!');
+        })
+        .catch(err => {
+          alert('Erro ao copiar chave Pix.');
+        });
+    }
+
+    function concluir() {
+      const mensagem = document.getElementById('mensagemAguardando');
+      mensagem.style.display = 'block'; // mostra "Aguardando pagamento..."
+
+      setTimeout(() => {
+        // Simula o tempo de processamento do pagamento
+        localStorage.removeItem('pedidoPizzaria'); // limpa pedido
+        localStorage.removeItem('valorTotalPedido'); // limpa valor
+
+        alert(`Pagamento de R$ ${valorTotal.toFixed(2)} confirmado! Obrigado pela sua compra. 🍕`);
+        window.location.href = 'index.html'; // volta para inicio
+      }, 3000); // espera 3 segundos
+    }
+
+    gerarQRCode();
+  </script>
+</body>
+</html>
