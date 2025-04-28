@@ -10,7 +10,7 @@
       display: flex;
       height: 100vh;
       /* Alterado aqui para permitir imagem de fundo */
-      background-image: url(paredepizzaria.jpg); /* <-- Link do papel de parede */
+      background-image: url(pizzafundo.jpg); /* <-- Link do papel de parede */
       background-size: cover; /* Faz a imagem cobrir toda a tela */
       background-position: center; /* Centraliza a imagem */
       background-repeat: no-repeat; /* Não repete a imagem */
@@ -18,7 +18,7 @@
 
     .coluna-esquerda {
       width: 250px;
-      background-color: rgba(46, 46, 46, 0.95); /* Transparente para ver o fundo */
+      background-color: rgb(14, 13, 13); /* Transparente para ver o fundo */
       display: flex;
       flex-direction: column;
       justify-content: space-between;
@@ -60,6 +60,7 @@
       flex: 1;
       padding: 20px;
       background-color: rgba(255, 248, 240, 0.178); /* Também levemente transparente */
+      color:rgb(0, 0, 0);
       border-radius: 10px;
       margin: 20px;
     }
@@ -69,20 +70,35 @@
 
   <div class="coluna-esquerda">
     <div class="menu">
-      <a href="index.html" class="botao">Página Inicial</a>
       <a href="cardápio.html" class="botao">Cardápio</a>
     </div>
 
     <div class="rodape">
+      Endereço: Via Rosalina M. Dos Santos, 1233, em Campo Mourão, Paraná<br><br>
       © 1985 Freddy Fazbear Pizzaria<br>
       Onde a fantasia e a diversão ganham vida.
     </div>
   </div>
 
   <div class="coluna-direita">
-    <h1>Bem-vindo ao Autoatendimento da Freddy Fazbear Pizzaria! :D</h1>
-    <p>Escolha uma opção no menu à esquerda para começar.</p>
+    <style>
+     h1 {
+      font-weight: bold;
+    }
+    .sublinhado {
+      text-decoration: underline;
+    }
+      </style>
+    <h1><span class="sublinhado">Bem-vindo ao Autoatendimento da</span></h1>
+    <h1><span class="sublinhado">Freddy Fazbear Pizzaria!</span>:D</h1>
+    <style>
+      p {
+        font-weight: bold;
+        text-decoration: underline;
+      }
+    </style>
+  
+    <p>Escolha uma opção no cardápio à esquerda para começar.</p>
   </div>
-
 </body>
 </html>
