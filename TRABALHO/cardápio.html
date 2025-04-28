@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
@@ -83,8 +83,19 @@
       }
 
       if (quantidade > 0) {
-        pedido.push({ nome, tamanho, quantidade });
-        document.getElementById(idLista).innerHTML += `<p>${quantidade}x ${tamanho}</p>`;
+        let precoUnitario = 0;
+
+        // Definindo o preço conforme o tamanho
+        if (tamanho === "Pequena") {
+          precoUnitario = 20;
+        } else if (tamanho === "Média") {
+          precoUnitario = 25;
+        } else if (tamanho === "Grande") {
+          precoUnitario = 30;
+        }
+
+        pedido.push({ nome, tamanho, quantidade, preco: precoUnitario });
+        document.getElementById(idLista).innerHTML += `<p>${quantidade}x ${tamanho} - R$ ${precoUnitario.toFixed(2)}</p>`;
       }
     }
 
