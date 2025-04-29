@@ -1,12 +1,12 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
   <title>Cardápio - Pizzaria</title>
   <style>
     body { font-family: Arial, sans-serif; padding: 20px; background-color: #1a1919; }
-    h1 {color: white;}
-    .pizza { background: rgba(122, 122, 121, 0.274); padding: 20px; margin-bottom: 20px; border-radius: 8px; box-shadow: 0 0 5px rgba(0,0,0,0.1); }
+    h1, h3 { color: white; }
+    .pizza { background: rgba(216, 216, 216, 0.705); padding: 20px; margin-bottom: 20px; border-radius: 8px; box-shadow: 0 0 5px rgba(0,0,0,0.1); }
     .pizza img { width: 200px; border-radius: 8px; }
     select, input[type="number"] { margin: 10px 5px 10px 0; padding: 5px; }
     .botao { background: #27ae60; color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer; }
@@ -15,7 +15,8 @@
 </head>
 <body>
   <h1>Escolha suas Pizzas</h1>
-  
+
+  <h3>Total de Pizzas Adicionadas: <span id="total_pizzas">0</span>/20</h3>
 
   <div class="pizza">
     <h2>Calabresa</h2>
@@ -65,40 +66,87 @@
     const pedido = [];
 
     function adicionarPizza(nome) {
-      let tamanho, quantidade, idLista;
+  let tamanho, quantidade, idLista;
 
-      if (nome === 'Calabresa') {
-        tamanho = document.getElementById('tam_calabresa').value;
-        quantidade = parseInt(document.getElementById('qtd_calabresa').value);
-        idLista = 'lista_calabresa';
-      } else if (nome === 'Marguerita') {
-        tamanho = document.getElementById('tam_marguerita').value;
-        quantidade = parseInt(document.getElementById('qtd_marguerita').value);
-        idLista = 'lista_marguerita';
-      } else {
-        tamanho = document.getElementById('tam_quatro').value;
-        quantidade = parseInt(document.getElementById('qtd_quatro').value);
-        idLista = 'lista_quatro';
-      }
+  if (nome === 'Calabresa') {
+    tamanho = document.getElementById('tam_calabresa').value;
+    quantidade = parseInt(document.getElementById('qtd_calabresa').value);
+    idLista = 'lista_calabresa';
+  } else if (nome === 'Marguerita') {
+    tamanho = document.getElementById('tam_marguerita').value;
+    quantidade = parseInt(document.getElementById('qtd_marguerita').value);
+    idLista = 'lista_marguerita';
+  } else {
+    tamanho = document.getElementById('tam_quatro').value;
+    quantidade = parseInt(document.getElementById('qtd_quatro').value);
+    idLista = 'lista_quatro';
+  }
 
-      if (quantidade > 0) {
-        let precoUnitario = 0;
+  if (isNaN(quantidade) || quantidade <= 0) {
+    alert("Informe uma quantidade válida.");
+    return;
+  }
 
-        // Definindo o preço conforme o tamanho
-        if (tamanho === "Pequena") {
-          precoUnitario = 20;
-        } else if (tamanho === "Média") {
-          precoUnitario = 25;
-        } else if (tamanho === "Grande") {
-          precoUnitario = 30;
-        }
+  const totalAtual = pedido.reduce((acc, item) => acc + item.quantidade, 0);
 
-        pedido.push({ nome, tamanho, quantidade, preco: precoUnitario });
-        document.getElementById(idLista).innerHTML += `<p>${quantidade}x ${tamanho} - R$ ${precoUnitario.toFixed(2)}</p>`;
-      }
+  if (totalAtual + quantidade > 20) {
+    alert(`Você só pode pedir no máximo 20 pizzas. Você já adicionou ${totalAtual}.`);
+    return;
+  }
+
+  let precoUnitario = 0;
+  if (tamanho === "Pequena") {
+    precoUnitario = 20;
+  } else if (tamanho === "Média") {
+    precoUnitario = 25;
+  } else if (tamanho === "Grande") {
+    precoUnitario = 30;
+  }
+
+  const item = { nome, tamanho, quantidade, preco: precoUnitario };
+  pedido.push(item);
+  renderizarPedidos();
+  
+}
+function renderizarPedidos() {
+  // Limpa as listas
+  document.getElementById('lista_calabresa').innerHTML = '';
+  document.getElementById('lista_marguerita').innerHTML = '';
+  document.getElementById('lista_quatro').innerHTML = '';
+
+  // Reexibe todos os itens com botões de remover
+  pedido.forEach((item, index) => {
+    const linha = document.createElement('p');
+    linha.innerHTML = `${item.quantidade}x ${item.tamanho} - R$ ${item.preco.toFixed(2)} 
+      <button onclick="removerPizza(${index})" style="margin-left:10px;color:red;">Remover</button>`;
+
+    if (item.nome === 'Calabresa') {
+      document.getElementById('lista_calabresa').appendChild(linha);
+    } else if (item.nome === 'Marguerita') {
+      document.getElementById('lista_marguerita').appendChild(linha);
+    } else {
+      document.getElementById('lista_quatro').appendChild(linha);
+    }
+  });
+
+  atualizarTotalPizzas();
+}
+
+function removerPizza(index) {
+  pedido.splice(index, 1);
+  renderizarPedidos();
+}
+
+    function atualizarTotalPizzas() {
+      const total = pedido.reduce((acc, item) => acc + item.quantidade, 0);
+      document.getElementById('total_pizzas').innerText = total;
     }
 
     function confirmarPedido() {
+      if (pedido.length === 0) {
+        alert("Adicione pelo menos uma pizza ao pedido.");
+        return;
+      }
       localStorage.setItem('pedidoPizzaria', JSON.stringify(pedido));
       window.location.href = 'pedido.html';
     }
