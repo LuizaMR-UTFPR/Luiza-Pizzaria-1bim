@@ -4,20 +4,87 @@
   <meta charset="UTF-8">
   <title>Cardápio - Pizzaria</title>
   <style>
-    body { font-family: Arial, sans-serif; padding: 20px; background-color: #1a1919; }
-    h1, h3 { color: white; }
-    .pizza { background: rgba(216, 216, 216, 0.705); padding: 20px; margin-bottom: 20px; border-radius: 8px; box-shadow: 0 0 5px rgba(0,0,0,0.1); }
-    .pizza img { width: 200px; border-radius: 8px; }
-    select, input[type="number"] { margin: 10px 5px 10px 0; padding: 5px; }
-    .botao { background: #27ae60; color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer; }
-    .adicionados { margin-top: 10px; font-size: 14px; }
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background-color: #1a1919;
+      color: white;
+    }
+
+    h1, h3 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .pizza {
+      background: #f4f4f4;
+      padding: 20px;
+      margin-bottom: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+      color: #333;
+    }
+
+    .pizza h2 {
+      margin-top: 0;
+    }
+
+    label {
+      display: block;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+
+    select, input[type="number"] {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    .botao {
+      background: #27ae60;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 15px;
+      width: 100%;
+    }
+
+    .botao:hover {
+      background: #219150;
+    }
+
+    .pedido-lista {
+      margin-top: 30px;
+      background: #fff;
+      color: #000;
+      padding: 15px;
+      border-radius: 8px;
+    }
+
+    .pedido-lista p {
+      margin: 5px 0;
+    }
+
+    .pedido-lista button {
+      margin-left: 10px;
+      background: transparent;
+      border: none;
+      color: red;
+      cursor: pointer;
+      font-weight: bold;
+    }
   </style>
 </head>
 <body>
   <h1>Escolha suas Pizzas</h1>
-
   <h3>Total de Pizzas Adicionadas: <span id="total_pizzas">0</span>/20</h3>
 
+  <!-- Calabresa -->
   <div class="pizza">
     <h2>Calabresa</h2>
     <label>Tamanho:</label>
@@ -26,12 +93,21 @@
       <option value="Média">Média</option>
       <option value="Grande">Grande</option>
     </select>
+
+    <label>Segunda metade (opcional):</label>
+    <select id="metade_calabresa">
+      <option value="">Nenhuma</option>
+      <option value="Marguerita">Marguerita</option>
+      <option value="Quatro Queijos">Quatro Queijos</option>
+    </select>
+
     <label>Quantidade:</label>
     <input type="number" id="qtd_calabresa" min="1" value="1">
+
     <button class="botao" onclick="adicionarPizza('Calabresa')">Adicionar</button>
-    <div class="adicionados" id="lista_calabresa"></div>
   </div>
 
+  <!-- Marguerita -->
   <div class="pizza">
     <h2>Marguerita</h2>
     <label>Tamanho:</label>
@@ -40,12 +116,21 @@
       <option value="Média">Média</option>
       <option value="Grande">Grande</option>
     </select>
+
+    <label>Segunda metade (opcional):</label>
+    <select id="metade_marguerita">
+      <option value="">Nenhuma</option>
+      <option value="Calabresa">Calabresa</option>
+      <option value="Quatro Queijos">Quatro Queijos</option>
+    </select>
+
     <label>Quantidade:</label>
     <input type="number" id="qtd_marguerita" min="1" value="1">
+
     <button class="botao" onclick="adicionarPizza('Marguerita')">Adicionar</button>
-    <div class="adicionados" id="lista_marguerita"></div>
   </div>
 
+  <!-- Quatro Queijos -->
   <div class="pizza">
     <h2>Quatro Queijos</h2>
     <label>Tamanho:</label>
@@ -54,88 +139,97 @@
       <option value="Média">Média</option>
       <option value="Grande">Grande</option>
     </select>
+
+    <label>Segunda metade (opcional):</label>
+    <select id="metade_quatro">
+      <option value="">Nenhuma</option>
+      <option value="Calabresa">Calabresa</option>
+      <option value="Marguerita">Marguerita</option>
+    </select>
+
     <label>Quantidade:</label>
     <input type="number" id="qtd_quatro" min="1" value="1">
+
     <button class="botao" onclick="adicionarPizza('Quatro Queijos')">Adicionar</button>
-    <div class="adicionados" id="lista_quatro"></div>
+  </div>
+
+  <!-- Lista de Pedidos -->
+  <div class="pedido-lista" id="lista_pedidos">
+    <h2>Seu Pedido</h2>
+    <!-- Itens inseridos dinamicamente -->
   </div>
 
   <button onclick="confirmarPedido()" class="botao">Confirmar Pedido</button>
 
   <script>
-    const pedido = [];
+
+const pedido = JSON.parse(localStorage.getItem('pedidoPizzaria')) || [];
 
     function adicionarPizza(nome) {
-  let tamanho, quantidade, idLista;
+      let tamanho, quantidade, metade = '';
 
-  if (nome === 'Calabresa') {
-    tamanho = document.getElementById('tam_calabresa').value;
-    quantidade = parseInt(document.getElementById('qtd_calabresa').value);
-    idLista = 'lista_calabresa';
-  } else if (nome === 'Marguerita') {
-    tamanho = document.getElementById('tam_marguerita').value;
-    quantidade = parseInt(document.getElementById('qtd_marguerita').value);
-    idLista = 'lista_marguerita';
-  } else {
-    tamanho = document.getElementById('tam_quatro').value;
-    quantidade = parseInt(document.getElementById('qtd_quatro').value);
-    idLista = 'lista_quatro';
-  }
+      if (nome === 'Calabresa') {
+        tamanho = document.getElementById('tam_calabresa').value;
+        quantidade = parseInt(document.getElementById('qtd_calabresa').value);
+        metade = document.getElementById('metade_calabresa').value;
+      } else if (nome === 'Marguerita') {
+        tamanho = document.getElementById('tam_marguerita').value;
+        quantidade = parseInt(document.getElementById('qtd_marguerita').value);
+        metade = document.getElementById('metade_marguerita').value;
+      } else {
+        tamanho = document.getElementById('tam_quatro').value;
+        quantidade = parseInt(document.getElementById('qtd_quatro').value);
+        metade = document.getElementById('metade_quatro').value;
+      }
 
-  if (isNaN(quantidade) || quantidade <= 0) {
-    alert("Informe uma quantidade válida.");
-    return;
-  }
+      if (isNaN(quantidade) || quantidade <= 0) {
+        alert("Informe uma quantidade válida.");
+        return;
+      }
 
-  const totalAtual = pedido.reduce((acc, item) => acc + item.quantidade, 0);
+      const totalAtual = pedido.reduce((acc, item) => acc + item.quantidade, 0);
+      if (totalAtual + quantidade > 20) {
+        alert(`Você só pode pedir no máximo 20 pizzas. Você já adicionou ${totalAtual}.`);
+        return;
+      }
 
-  if (totalAtual + quantidade > 20) {
-    alert(`Você só pode pedir no máximo 20 pizzas. Você já adicionou ${totalAtual}.`);
-    return;
-  }
+      let precoBase = tamanho === "Pequena" ? 20 : tamanho === "Média" ? 25 : 30;
+      let precoUnitario = metade ? precoBase * 1.25 : precoBase;
+      let nomeFinal = metade ? `1/2 ${nome} + 1/2 ${metade}` : nome;
 
-  let precoUnitario = 0;
-  if (tamanho === "Pequena") {
-    precoUnitario = 20;
-  } else if (tamanho === "Média") {
-    precoUnitario = 25;
-  } else if (tamanho === "Grande") {
-    precoUnitario = 30;
-  }
+      const indexExistente = pedido.findIndex(p => p.nome === nomeFinal && p.tamanho === tamanho);
 
-  const item = { nome, tamanho, quantidade, preco: precoUnitario };
-  pedido.push(item);
-  renderizarPedidos();
-  
-}
-function renderizarPedidos() {
-  // Limpa as listas
-  document.getElementById('lista_calabresa').innerHTML = '';
-  document.getElementById('lista_marguerita').innerHTML = '';
-  document.getElementById('lista_quatro').innerHTML = '';
+      if (indexExistente !== -1) {
+        pedido[indexExistente].quantidade += quantidade;
+      } else {
+        pedido.push({ nome: nomeFinal, tamanho, quantidade, preco: precoUnitario });
+      }
 
-  // Reexibe todos os itens com botões de remover
-  pedido.forEach((item, index) => {
-    const linha = document.createElement('p');
-    linha.innerHTML = `${item.quantidade}x ${item.tamanho} - R$ ${item.preco.toFixed(2)} 
-      <button onclick="removerPizza(${index})" style="margin-left:10px;color:red;">Remover</button>`;
-
-    if (item.nome === 'Calabresa') {
-      document.getElementById('lista_calabresa').appendChild(linha);
-    } else if (item.nome === 'Marguerita') {
-      document.getElementById('lista_marguerita').appendChild(linha);
-    } else {
-      document.getElementById('lista_quatro').appendChild(linha);
+      renderizarPedidos();
     }
-  });
 
-  atualizarTotalPizzas();
-}
+    function renderizarPedidos() {
+      const lista = document.getElementById('lista_pedidos');
+      lista.innerHTML = "<h2>Seu Pedido</h2>";
 
-function removerPizza(index) {
-  pedido.splice(index, 1);
-  renderizarPedidos();
-}
+      pedido.forEach((item, index) => {
+        const linha = document.createElement('p');
+        linha.innerHTML = `${item.quantidade}x ${item.nome} (${item.tamanho}) - R$ ${(item.preco * item.quantidade).toFixed(2)}
+          <button onclick="removerPizza(${index})">Remover</button>`;
+        lista.appendChild(linha);
+      });
+
+      atualizarTotalPizzas();
+    }
+
+    function removerPizza(index) {
+      if (pedido[index].quantidade > 1) {
+        pedido[index].quantidade -= 1;
+      } else {
+        pedido.splice(index, 1);
+      }
+      renderizarPedidos();
+    }
 
     function atualizarTotalPizzas() {
       const total = pedido.reduce((acc, item) => acc + item.quantidade, 0);
@@ -149,7 +243,11 @@ function removerPizza(index) {
       }
       localStorage.setItem('pedidoPizzaria', JSON.stringify(pedido));
       window.location.href = 'pedido.html';
+      
     }
+    window.onload = () => {
+  renderizarPedidos();
+};
   </script>
 </body>
 </html>
