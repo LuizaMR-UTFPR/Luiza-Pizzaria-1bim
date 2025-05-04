@@ -390,6 +390,8 @@
   });
 
   atualizarTotalPizzas();
+  localStorage.setItem('pedidoPizzaria', JSON.stringify(pedido));
+
 }
 
     function removerPizza(index) {
@@ -414,13 +416,17 @@
       localStorage.setItem('pedidoPizzaria', JSON.stringify(pedido));
       window.location.href = 'pedido.html';
     }
-    // Adicionar combo se vier da URL
+   // Exibir pedido salvo ao carregar a página e adicionar combo se necessário
 window.addEventListener('DOMContentLoaded', () => {
   const urlParams = new URLSearchParams(window.location.search);
+
   if (urlParams.get('combo') === '1') {
     adicionarComboEspecial();
   }
+
+  renderizarPedidos(); // Exibe o pedido salvo do localStorage
 });
+
 
 function adicionarComboEspecial() {
   const precoEspecial = 22.5;
