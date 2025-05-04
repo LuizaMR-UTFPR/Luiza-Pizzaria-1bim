@@ -296,6 +296,24 @@
 
 
   <!-- Lista de Pedidos -->
+  <div id="alerta_adicao" style="
+  display: none;
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #28a745;
+  color: white;
+  padding: 12px 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+  z-index: 9999;
+  font-size: 16px;
+">
+  <!-- Mensagem inserida via JavaScript -->
+</div>
+
+  </div>  
   <div class="pedido-lista" id="lista_pedidos">
     <h2>Seu Pedido</h2>
     <!-- Itens inseridos dinamicamente -->
@@ -355,14 +373,28 @@
       let precoUnitario = metade ? precoBase * 1.25 : precoBase;
       let nomeFinal = metade ? `1/2 ${nome} + 1/2 ${metade}` : nome;
 
-      const indexExistente = pedido.findIndex(p => p.nome === nomeFinal && p.tamanho === tamanho);
+      // Sempre usar preço normal para pedidos manuais
+let precoFinal = precoUnitario;
 
-      if (indexExistente !== -1) {
-        pedido[indexExistente].quantidade += quantidade;
-      } else {
-        pedido.push({ nome: nomeFinal, tamanho, quantidade, preco: precoUnitario });
-      }
+// Forçar preço de 25 para Pepperoni Média sem metade fora do combo
+if (nome === 'Pepperoni' && tamanho === 'Média' && !metade) {
+  precoFinal = 25;
+}
 
+// Verifica se já existe item idêntico (nome, tamanho e preço)
+const indexExistente = pedido.findIndex(p =>
+  p.nome === nomeFinal &&
+  p.tamanho === tamanho &&
+  p.preco === precoFinal
+);
+
+if (indexExistente !== -1) {
+  pedido[indexExistente].quantidade += quantidade;
+} else {
+  pedido.push({ nome: nomeFinal, tamanho, quantidade, preco: precoFinal });
+}
+
+      exibirAlertaAdicao(quantidade, nomeFinal, tamanho);
       renderizarPedidos();
     }
 
@@ -394,14 +426,46 @@
 
 }
 
-    function removerPizza(index) {
-      if (pedido[index].quantidade > 1) {
-        pedido[index].quantidade -= 1;
-      } else {
-        pedido.splice(index, 1);
+function exibirAlertaAdicao(qtd, nome, tamanho) {
+  const alerta = document.getElementById('alerta_adicao');
+  alerta.innerText = `${qtd}x ${nome} (${tamanho}) adicionada(s) ao pedido!`;
+  alerta.style.display = 'block';
+
+  clearTimeout(alerta.timer); // Cancela qualquer alerta anterior ainda visível
+  alerta.timer = setTimeout(() => {
+    alerta.style.display = 'none';
+  }, 3000);
+}
+
+function removerPizza(index) {
+  const item = pedido[index];
+
+  // Verifica se é uma pizza do combo (pepperoni média sem metade por 22.5)
+  const isPizzaCombo = item.nome === 'Pepperoni' && item.tamanho === 'Média' && item.preco === 22.5;
+  // Verifica se é o refrigerante do combo
+  const isRefriCombo = item.nome === 'Refrigerante 2L (brinde)' && item.preco === 0;
+
+  if (isPizzaCombo || isRefriCombo) {
+    // Remove todos os itens do combo (pepperoni média 22.5 e refrigerante grátis)
+    for (let i = pedido.length - 1; i >= 0; i--) {
+      const p = pedido[i];
+      const comboPizza = p.nome === 'Pepperoni' && p.tamanho === 'Média' && p.preco === 22.5;
+      const comboRefri = p.nome === 'Refrigerante 2L (brinde)' && p.preco === 0;
+      if (comboPizza || comboRefri) {
+        pedido.splice(i, 1);
       }
-      renderizarPedidos();
     }
+  } else {
+    // Se não é combo, remove só uma unidade ou o item inteiro
+    if (pedido[index].quantidade > 1) {
+      pedido[index].quantidade -= 1;
+    } else {
+      pedido.splice(index, 1);
+    }
+  }
+
+  renderizarPedidos();
+}
 
     function atualizarTotalPizzas() {
       const total = pedido.reduce((acc, item) => acc + item.quantidade, 0);
