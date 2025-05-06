@@ -24,7 +24,9 @@
 
     <div class="qr-code">
       <p>Ou escaneie o QR Code:</p>
-      <img id="qrCodeImagem" src="" alt="QR Code Pix" />
+      <img id="qrCodeImagem" src="qrcode.jpeg" alt="QR Code Pix" width="300" height="300" style="image-rendering: crisp-edges;" />
+
+
     </div>
 
     <button class="botao" onclick="concluir()">Concluir Pedido</button>
@@ -34,30 +36,6 @@
 
   <script>
     let valorTotal = 0;
-
-    function gerarPixCopiaCola(valor) {
-      const chave = '44999074747';
-      const nomeRecebedor = 'Freddy Fazbear PIzzaria';
-      const cidade = 'EUA';
-      const mensagem = 'Pagamento Pizzaria';
-
-      const payload = `00020126360014BR.GOV.BCB.PIX0114${chave}520400005303986540${valor.toFixed(2)}5802BR5914${nomeRecebedor}6007${cidade}62070503***6304`;
-      return payload;
-    }
-
-    function gerarQRCode() {
-      valorTotal = parseFloat(localStorage.getItem('valorTotalPedido') || 0);
-      if (valorTotal <= 0) {
-        alert('Nenhum pedido encontrado.');
-        window.location.href = 'cardápio.html';
-        return;
-      }
-
-      const payload = gerarPixCopiaCola(valorTotal);
-      const urlQRCode = `https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(payload)}&size=200x200`;
-
-      document.getElementById('qrCodeImagem').src = urlQRCode;
-    }
 
     function copiarChave() {
       const chavePix = document.getElementById('chavePix').innerText;
@@ -79,12 +57,10 @@
         localStorage.removeItem('pedidoPizzaria'); // limpa pedido
         localStorage.removeItem('valorTotalPedido'); // limpa valor
 
-        alert(`Pagamento de R$ ${valorTotal.toFixed(2)} confirmado! Obrigado pela sua compra:)`);
+        alert(`Pagamento confirmado! Obrigado pela sua compra:)`);
         window.location.href = 'index.html'; // volta para inicio
       }, 3000); // espera 3 segundos
     }
-
-    gerarQRCode();
   </script>
 </body>
 </html>
