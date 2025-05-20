@@ -281,26 +281,62 @@
   object-fit: cover;
 }
 
+.botao-cadastrar {
+  background-color: white !important;
+  color: #680000 !important; /* força a cor do texto */
+  font-weight: bold;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  font-size: 18px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.botao-cadastrar:hover {
+  background-color: #f3f3f3;
+}
+
+.botao-add-combo {
+  background-color: #ffffff; /* cor diferente: amarelo destaque */
+  color: #042d77;            /* texto azul escuro para contraste */
+  font-weight: bold;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+
   </style>
 </head>
 <body>
 
   <div class="topo">
-    <button onclick="window.location.href='cardápio.html'">Fazer Pedido</button>
-    <button onclick="document.getElementById('combos').scrollIntoView({ behavior: 'smooth' });">Combos</button>
+    <div style="display: flex; gap: 20px;">
+      <button onclick="window.location.href='cardápio.html'">Fazer Pedido</button>
+      <button onclick="document.getElementById('combos').scrollIntoView({ behavior: 'smooth' });">Combos</button>
+    </div>
+    <div style="margin-left: auto; display: flex; gap: 10px;">
+      <button class="botao-cadastrar" onclick="window.location.href='cadastro.html'">Cadastrar</button>
+      <button onclick="window.location.href='login.html'">Login</button>
+    </div>
   </div>
-
+  
+  
+  
   <div class="carrossel-container">
     <div class="carrossel-slider" id="carrossel">
       <div class="slide">
-        <img src="INICIO.jpg" alt="Imagem 1">
+        <img src="IMAGENS/INICIO.jpg" alt="Imagem 1">
       </div>
       <div class="slide">
-        <img src="COMBO IMAGEM.jpg" alt="Imagem 2">
+        <img src="IMAGENS/COMBO IMAGEM.jpg" alt="Imagem 2">
       </div>
       <div class="slide">
         <div class="sabor-item">
-          <img src="DOCE.jpg" alt="Pizza Doce">
+          <img src="IMAGENS/DOCE.jpg" alt="Pizza Doce">
           <div class="legenda-hover">Em breve...</div>
         </div>
       </div>
@@ -336,31 +372,31 @@
   <div class="sabores-carrossel" id="saboresCarrossel">
     <!-- Substitua os src e os textos conforme seus sabores -->
     <div class="sabor">
-      <img src="Pizza Calabresa.jfif" alt="Sabor 1">
+      <img src="IMAGENS/Pizza Calabresa.jpeg" alt="Sabor 1">
       <div class="ingredientes">Calabresa: calabresa, cebola, azeitona, muçarela</div>
     </div>
     <div class="sabor">
-      <img src="Pizza Marguerita.jfif" alt="Sabor 2">
+      <img src="IMAGENS/Pizza Marguerita.jpeg" alt="Sabor 2">
       <div class="ingredientes">Marguerita: muçarela, tomate, manjericão</div>
     </div>
     <div class="sabor">
-      <img src="Pizza 4Queijos.jfif" alt="Sabor 3">
+      <img src="IMAGENS/Pizza 4Queijos.jpeg" alt="Sabor 3">
       <div class="ingredientes">Quatro queijos: muçarela, provolone, gorgonzola, parmesão, orégano</div>
     </div>
     <div class="sabor">
-      <img src="Pizza FrangoC.jpg" alt="Sabor 4">
+      <img src="IMAGENS/Pizza FrangoC.jpg" alt="Sabor 4">
       <div class="ingredientes">Frango com catupiry: frango, catupiry, muçarela, orégano</div>
     </div>
     <div class="sabor">
-      <img src="Pizza Portuguesa.jfif" alt="Sabor 5">
+      <img src="IMAGENS/Pizza Portuguesa.jfif" alt="Sabor 5">
       <div class="ingredientes">Portuguesa: ovo, azeitonas, cebola, lombo</div>
     </div>
     <div class="sabor">
-      <img src="Pepperoni Pizza.jfif" alt="Sabor 6">
+      <img src="IMAGENS/Pepperoni Pizza.jfif" alt="Sabor 6">
       <div class="ingredientes">Peperoni: peperoni, muçarela extra</div>
     </div>
     <div class="sabor">
-      <img src="Pizza SOAD.jfif" alt="Sabor 7">
+      <img src="IMAGENS/Pizza SOAD.jfif" alt="Sabor 7">
       <div class="ingredientes">Pizza SOAD: peperoni, pimentão verde, cogumelos, azeitonas, cebolinhas</div>
     </div>
     <!-- Adicione mais sabores se quiser -->
@@ -374,7 +410,7 @@
 
   <div style="display: flex; justify-content: space-between; align-items: center; background-color: #042d77; padding: 15px; border-radius: 10px; margin-bottom: 20px;">
     <p style="margin: 0; color: white;">Combo: 2 Pizzas de peperoni + Refrigerante 2L</p>
-    <button onclick="adicionarCombo()">Ver Combo</button>
+    <button class="botao-add-combo" onclick="adicionarCombo()">Adicionar Combo</button>
   </div>
   
   <script>
